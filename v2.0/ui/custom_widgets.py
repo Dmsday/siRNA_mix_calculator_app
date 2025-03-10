@@ -13,9 +13,17 @@ class SelectableLabel(ttk.Frame):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
 
+        # Obtenir la couleur d'arrière-plan du thème actuel ou utiliser une valeur par défaut
+        try:
+            bg_color = parent.winfo_toplevel().tk.call('ttk::style', 'lookup', 'TFrame', '-background')
+            if not bg_color:
+                bg_color = "white"  # Valeur par défaut si non trouvée
+        except:
+            bg_color = "white"  # Fallback en cas d'erreur
+
         # Création d'un widget Text pour permettre la sélection
         self.text_widget = tk.Text(self, height=1, wrap="word",
-                                   background=self.cget("background"),
+                                   background=bg_color,
                                    borderwidth=0, highlightthickness=0)
         self.text_widget.grid(row=0, column=0, sticky="ew")
 
